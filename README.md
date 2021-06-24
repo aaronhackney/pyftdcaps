@@ -1,36 +1,53 @@
-# pyftd
-**Note:**  
-This is a work in progress and more client functionality for the API calls will be added over time.
+# pyftdcaps
 
-This is the refactored, new version of the python FTDClient Library. This library is for interacting with a Cisco Firepower Threat Defense appliance, both physical and virtual. The use-case for this libray would be for an orchestation script(s) to use these calls to configure an FTD from fresh install to production ready use and for day-to-day adds, moves and changes.
-
-The library calls are all structured to use the same attribute names as the native API, making it simple to take the output from an FTD export and create a configuration file in an easy to use format like YAML for orchestration of configuration.
+## Problem Statement:
+- Cisco Secure Firewall Threat Defense (FTD) does not allow an SCP "pull" where the FTD appliance acts as an SCP server
+- Cisco ASA allowed itself to be an SCP server with the configuration command `ssh scopy enable`
+- Often engineers work in the `system support diagnostic-cli` running L3/L4 captures from the LINA engine
+- Once saved, unless one has an SCP to **push** the files *to* there is not an easy way to get the files off box for examination in tools like Wireshark
+- This script uses the [pyftd](https://github.com/aaronhackney/pyftd) library and [netmiko](https://github.com/ktbyers/netmiko) to easily download a packet capture from an FDM managed FTD to your default home directory
 
 ## Requirements
 - Python 3.7+
+- pyftd 2.1.0+
+- netmiko 3.4.0+
 - FTD Version 6.6.0+ managed by FDM (Sorry, not FMC compatible)
-- Admin level credentials for the FTD
+- Admin credentials for the FTD
 
 ## Installation
+Clone this repo
 python -m pip install git+https://github.com/aaronhackney/pyftd.git
+pip install netmiko
 
 ## Use
-The unitests located in the /tests folder should be very helpful as they demonstrate how to use the various client methods. Each method can take any of the parameters as allowed and documented in the API Explorer in FDM.  
-
-###
+### Required Arguments
 ```
-from pyftd import FTDClient
+python captures.py [FTD management ip] [capture filename on disk0]  
+```
 
-ftd_client = FTDClient(192.168.100.100, admin, "Admin123", verify=False)
+### Optional switches
+ -n ignore SSL/TLS warnings (self signed certificate)  
+ -d debug log the netmiko SSH session to this directoy as `ssh_log.txt`  
+ -p [password] provide the password at runtime. If omitted, you will be prompted for the admin password at runtime
 
-net_obj = self.ftd_client.create_network_object(
-    {
-        "name": "TEST-NET",  
-        "value": "10.1.1.0/24",  
-        "subType": "NETWORK",  
-        "type": "networkobject"  
-    }  
-)  
-``` 
+## Example
+### FTD Save Capture
+```
+fp66# copy /pcap capture:akh1 disk0:akh1.pcap
+Source capture name [akh1]?
+Destination filename [akh1.pcap]?
+!!
+120 packets copied in 0.0 secs
+fp66#
+```
+
+### Download capture from FTD
+```
+python captures.py 172.30.4.28 akh1.pcap -p 'P@$$w0rd1!' -n
+
+--- TLS warning messages omitted ---
+
+File downloaded and saved at /Users/username/akh1.pcap
+```
 
 
