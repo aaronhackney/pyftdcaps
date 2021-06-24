@@ -1,0 +1,18 @@
+Last login: Thu Jun 24 18:30:08 UTC 2021 from 172.30.3.156 on pts/1
+
+Copyright 2004-2020, Cisco and/or its affiliates. All rights reserved. 
+Cisco is a registered trademark of Cisco Systems, Inc. 
+All other trademarks are property of their respective owners.
+
+Cisco Fire Linux OS v6.6.1 (build 14)
+Cisco Firepower Threat Defense for VMWare v6.6.1 (build 91)
+
+> 
+> expert
+sudo su
+admin@fp67:~$ sudo su
+Password: 
+root@fp67:/home/admin# mkdir -p /ngfw/var/cisco/deploy/pkg/diskfiles
+root@fp67:/home/admin# 
+root@fp67:/home/admin# cp /mnt/disk0/akh1.pcap /ngfw/var/cisco/deploy/pkg/diskfiles/akh1.pcap
+root@fp67:/home/admin# 
