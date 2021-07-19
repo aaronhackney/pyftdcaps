@@ -15,7 +15,7 @@
 - Admin credentials for the FTD
 
 ## Installation
-Clone this repo
+Clone this repo  
 python -m pip install git+https://github.com/aaronhackney/pyftd.git  
 pip install netmiko
 
