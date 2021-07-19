@@ -16,7 +16,7 @@
 
 ## Installation
 Clone this repo
-python -m pip install git+https://github.com/aaronhackney/pyftd.git
+python -m pip install git+https://github.com/aaronhackney/pyftd.git  
 pip install netmiko
 
 ## Use
@@ -26,9 +26,11 @@ python captures.py [FTD management ip] [capture filename on disk0]
 ```
 
 ### Optional switches
- -n ignore SSL/TLS warnings (self signed certificate)  
+ -a FTD API Port (Port FDM is listening. Default=443)
+ -n ignore SSL/TLS warnings (self signed certificate)
  -d debug log the netmiko SSH session to this directoy as `ssh_log.txt`  
- -p [password] provide the password at runtime. If omitted, you will be prompted for the admin password at runtime
+ -p [password] provide the password at runtime. If omitted, you will be prompted for the admin password at runtime  
+ -c [path to ssh config file] use the ssh config file, typically in ~/.ssh/config for ssh settings like proxy server
 
 ## Example
 ### FTD Save Capture
